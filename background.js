@@ -159,12 +159,11 @@ var cache = {
             result = Object.create(Connection);
             result.connectionId = context.sid_Client;
             this.cachedConnections[result.connectionId] = result;
-            result.sfconnection = new sforce.Connection();
+            result.sfconnection = new forcetk.Client();
+            result.sfconnection.proxyUrl = null;
             console.log("Setting up API connection with session Id "+context.masterSessionId+" to "+context.sfhost);
-            result.sfconnection.init(context.masterSessionId,"https://"+context.sfhost+"/services/Soap/u/25.0");
-            UserContext.getUrl = function(path){ return "https://"+context.sfhost+path; }; //hack for apex.js to work
-        }else{
-            UserContext.getUrl = function(path){ return "https://"+context.sfhost+path; }; //hack for apex.js to work
+            var apiVersion = 'v'+config.getConfig("rest_api_version");
+            result.sfconnection.setSessionToken(context.masterSessionId, apiVersion, 'https://'+context.sfhost);
         }
         result.lastUsed = Date.now();
         return result;

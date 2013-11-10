@@ -2,7 +2,8 @@
 
 var config = {
 	defaults: {
-		connection_cleanup_age: 4
+		connection_cleanup_age: 4,
+		rest_api_version: 29.0
 	},
 	getConfig: function(configName){
 		var configValue = localStorage[configName];
